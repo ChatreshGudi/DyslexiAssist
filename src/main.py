@@ -9,7 +9,7 @@ import google.generativeai as genai
 from ui.components import Slider, TextBox, draw_button
 from ui.text_utils import wrap_text
 from services.text_reader import TextReader
-from services.image_recognition import detect_document
+from services.image_recognition_easyocr import detect_document
 from assistant import DyslexiaAssistant
 from services.contrast_tester import ContrastTester
 import tkinter as tk
@@ -134,11 +134,9 @@ def draw_back_button(screen, button_font, button_width, button_height):
                 button_color, text_color, border_radius=5)
     return back_button  # Return the rect for click detection
 
-genai.configure(api_key="YOUR API KEY HERE")
+genai.configure(api_key="AIzaSyA1VgJaj0VW6E9tV5cITXGxmBRUPDLEddc")
 model = genai.GenerativeModel('gemini-pro')
 expected_text = model.generate_content("Generate only a random 2-3 line text to test a dyslexic person's listening ability").text
-
-# expected_text = "The quick brown fox"
 
 def main():
     global BACKGROUND_COLOR, TEXT_COLOR
@@ -417,6 +415,7 @@ def main():
                         if file_path:
                             try:
                                 extracted_text = detect_document(file_path)
+                                print(extracted_text)
                                 if extracted_text:
                                     correction_result = assistant.process_text(extracted_text)
                                     text_box.text = correction_result["final_correction"]
